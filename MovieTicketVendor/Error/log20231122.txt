@@ -1,0 +1,583 @@
+2023-11-22 03:25:32.098 +01:00 [INF] Entity Framework Core 3.1.32 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2023-11-22 03:29:54.051 +01:00 [INF] Entity Framework Core 3.1.32 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2023-11-22 03:29:54.554 +01:00 [INF] Executed DbCommand (26ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2023-11-22 03:29:54.600 +01:00 [INF] Executed DbCommand (23ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2023-11-22 03:29:54.604 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2023-11-22 03:29:54.735 +01:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [__EFMigrationsHistory] (
+    [MigrationId] nvarchar(150) NOT NULL,
+    [ProductVersion] nvarchar(32) NOT NULL,
+    CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+);
+2023-11-22 03:29:54.737 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2023-11-22 03:29:54.740 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2023-11-22 03:29:54.745 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2023-11-22 03:29:54.771 +01:00 [INF] Applying migration '20231122022532_Initial'.
+2023-11-22 03:29:54.811 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Actors] (
+    [Id] int NOT NULL IDENTITY,
+    [ProfilePictureUrl] nvarchar(max) NULL,
+    [FullName] nvarchar(max) NULL,
+    [Bio] nvarchar(max) NULL,
+    CONSTRAINT [PK_Actors] PRIMARY KEY ([Id])
+);
+2023-11-22 03:29:54.814 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Cinemas] (
+    [Id] int NOT NULL IDENTITY,
+    [Logo] nvarchar(max) NULL,
+    [Name] nvarchar(max) NULL,
+    [Description] nvarchar(max) NULL,
+    CONSTRAINT [PK_Cinemas] PRIMARY KEY ([Id])
+);
+2023-11-22 03:29:54.817 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Producers] (
+    [Id] int NOT NULL IDENTITY,
+    [ProfilePictureUrl] nvarchar(max) NULL,
+    [FullName] nvarchar(max) NULL,
+    [Bio] nvarchar(max) NULL,
+    CONSTRAINT [PK_Producers] PRIMARY KEY ([Id])
+);
+2023-11-22 03:29:55.546 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Movies] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(max) NULL,
+    [Description] nvarchar(max) NULL,
+    [Price] float NOT NULL,
+    [ImageUrl] nvarchar(max) NULL,
+    [StartDate] datetime2 NOT NULL,
+    [EndDate] datetime2 NOT NULL,
+    [MovieCategory] int NOT NULL,
+    [CinemaId] int NOT NULL,
+    [ProducerId] int NOT NULL,
+    CONSTRAINT [PK_Movies] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Movies_Cinemas_CinemaId] FOREIGN KEY ([CinemaId]) REFERENCES [Cinemas] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Movies_Producers_ProducerId] FOREIGN KEY ([ProducerId]) REFERENCES [Producers] ([Id]) ON DELETE CASCADE
+);
+2023-11-22 03:29:55.550 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Actors_Movies] (
+    [ActorId] int NOT NULL,
+    [MovieId] int NOT NULL,
+    CONSTRAINT [PK_Actors_Movies] PRIMARY KEY ([MovieId], [ActorId]),
+    CONSTRAINT [FK_Actors_Movies_Actors_ActorId] FOREIGN KEY ([ActorId]) REFERENCES [Actors] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Actors_Movies_Movies_MovieId] FOREIGN KEY ([MovieId]) REFERENCES [Movies] ([Id]) ON DELETE CASCADE
+);
+2023-11-22 03:29:55.553 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Actors_Movies_ActorId] ON [Actors_Movies] ([ActorId]);
+2023-11-22 03:29:55.556 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Movies_CinemaId] ON [Movies] ([CinemaId]);
+2023-11-22 03:29:57.562 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Movies_ProducerId] ON [Movies] ([ProducerId]);
+2023-11-22 03:29:57.565 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20231122022532_Initial', N'3.1.32');
+2023-11-22 04:04:56.460 +01:00 [INF] User profile is available. Using 'C:\Users\David Mboko\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-11-22 04:04:57.880 +01:00 [INF] Creating key {09d497bd-3750-4476-9b2e-90eb6bb1b6a6} with creation date 2023-11-22 03:04:57Z, activation date 2023-11-22 03:04:57Z, and expiration date 2024-02-20 03:04:57Z.
+2023-11-22 04:04:57.917 +01:00 [INF] Writing data to file 'C:\Users\David Mboko\AppData\Local\ASP.NET\DataProtection-Keys\key-09d497bd-3750-4476-9b2e-90eb6bb1b6a6.xml'.
+2023-11-22 04:05:00.863 +01:00 [INF] Entity Framework Core 3.1.32 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2023-11-22 04:05:01.844 +01:00 [INF] Executed DbCommand (25ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2023-11-22 04:05:01.891 +01:00 [INF] Executed DbCommand (32ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2023-11-22 04:05:02.164 +01:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[Description], [c].[Logo], [c].[Name]
+FROM [Cinemas] AS [c]
+2023-11-22 04:05:02.445 +01:00 [INF] Executed DbCommand (59ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (Size = 4000), @p2='?' (Size = 4000), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (Size = 4000), @p12='?' (Size = 4000), @p13='?' (Size = 4000), @p14='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+DECLARE @inserted0 TABLE ([Id] int, [_Position] [int]);
+MERGE [Cinemas] USING (
+VALUES (@p0, @p1, @p2, 0),
+(@p3, @p4, @p5, 1),
+(@p6, @p7, @p8, 2),
+(@p9, @p10, @p11, 3),
+(@p12, @p13, @p14, 4)) AS i ([Description], [Logo], [Name], _Position) ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([Description], [Logo], [Name])
+VALUES (i.[Description], i.[Logo], i.[Name])
+OUTPUT INSERTED.[Id], i._Position
+INTO @inserted0;
+
+SELECT [t].[Id] FROM [Cinemas] t
+INNER JOIN @inserted0 i ON ([t].[Id] = [i].[Id])
+ORDER BY [i].[_Position];
+2023-11-22 04:05:02.498 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[Bio], [a].[FullName], [a].[ProfilePictureURL]
+FROM [Actors] AS [a]
+2023-11-22 04:05:02.522 +01:00 [INF] Executed DbCommand (8ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (Size = 4000), @p2='?' (Size = 4000), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (Size = 4000), @p12='?' (Size = 4000), @p13='?' (Size = 4000), @p14='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+DECLARE @inserted0 TABLE ([Id] int, [_Position] [int]);
+MERGE [Actors] USING (
+VALUES (@p0, @p1, @p2, 0),
+(@p3, @p4, @p5, 1),
+(@p6, @p7, @p8, 2),
+(@p9, @p10, @p11, 3),
+(@p12, @p13, @p14, 4)) AS i ([Bio], [FullName], [ProfilePictureURL], _Position) ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([Bio], [FullName], [ProfilePictureURL])
+VALUES (i.[Bio], i.[FullName], i.[ProfilePictureURL])
+OUTPUT INSERTED.[Id], i._Position
+INTO @inserted0;
+
+SELECT [t].[Id] FROM [Actors] t
+INNER JOIN @inserted0 i ON ([t].[Id] = [i].[Id])
+ORDER BY [i].[_Position];
+2023-11-22 04:05:02.533 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[Bio], [p].[FullName], [p].[ProfilePictureURL]
+FROM [Producers] AS [p]
+2023-11-22 04:05:02.555 +01:00 [INF] Executed DbCommand (8ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (Size = 4000), @p2='?' (Size = 4000), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (Size = 4000), @p12='?' (Size = 4000), @p13='?' (Size = 4000), @p14='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+DECLARE @inserted0 TABLE ([Id] int, [_Position] [int]);
+MERGE [Producers] USING (
+VALUES (@p0, @p1, @p2, 0),
+(@p3, @p4, @p5, 1),
+(@p6, @p7, @p8, 2),
+(@p9, @p10, @p11, 3),
+(@p12, @p13, @p14, 4)) AS i ([Bio], [FullName], [ProfilePictureURL], _Position) ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([Bio], [FullName], [ProfilePictureURL])
+VALUES (i.[Bio], i.[FullName], i.[ProfilePictureURL])
+OUTPUT INSERTED.[Id], i._Position
+INTO @inserted0;
+
+SELECT [t].[Id] FROM [Producers] t
+INNER JOIN @inserted0 i ON ([t].[Id] = [i].[Id])
+ORDER BY [i].[_Position];
+2023-11-22 04:05:02.568 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [m].[Id], [m].[CinemaId], [m].[Description], [m].[EndDate], [m].[ImageURL], [m].[MovieCategory], [m].[Name], [m].[Price], [m].[ProducerId], [m].[StartDate]
+FROM [Movies] AS [m]
+2023-11-22 04:05:02.666 +01:00 [INF] Executed DbCommand (22ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (DbType = Int32), @p5='?' (Size = 4000), @p6='?' (DbType = Double), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Int32), @p10='?' (Size = 4000), @p11='?' (DbType = DateTime2), @p12='?' (Size = 4000), @p13='?' (DbType = Int32), @p14='?' (Size = 4000), @p15='?' (DbType = Double), @p16='?' (DbType = Int32), @p17='?' (DbType = DateTime2), @p18='?' (DbType = Int32), @p19='?' (Size = 4000), @p20='?' (DbType = DateTime2), @p21='?' (Size = 4000), @p22='?' (DbType = Int32), @p23='?' (Size = 4000), @p24='?' (DbType = Double), @p25='?' (DbType = Int32), @p26='?' (DbType = DateTime2), @p27='?' (DbType = Int32), @p28='?' (Size = 4000), @p29='?' (DbType = DateTime2), @p30='?' (Size = 4000), @p31='?' (DbType = Int32), @p32='?' (Size = 4000), @p33='?' (DbType = Double), @p34='?' (DbType = Int32), @p35='?' (DbType = DateTime2), @p36='?' (DbType = Int32), @p37='?' (Size = 4000), @p38='?' (DbType = DateTime2), @p39='?' (Size = 4000), @p40='?' (DbType = Int32), @p41='?' (Size = 4000), @p42='?' (DbType = Double), @p43='?' (DbType = Int32), @p44='?' (DbType = DateTime2), @p45='?' (DbType = Int32), @p46='?' (Size = 4000), @p47='?' (DbType = DateTime2), @p48='?' (Size = 4000), @p49='?' (DbType = Int32), @p50='?' (Size = 4000), @p51='?' (DbType = Double), @p52='?' (DbType = Int32), @p53='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+DECLARE @inserted0 TABLE ([Id] int, [_Position] [int]);
+MERGE [Movies] USING (
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, 0),
+(@p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, 1),
+(@p18, @p19, @p20, @p21, @p22, @p23, @p24, @p25, @p26, 2),
+(@p27, @p28, @p29, @p30, @p31, @p32, @p33, @p34, @p35, 3),
+(@p36, @p37, @p38, @p39, @p40, @p41, @p42, @p43, @p44, 4),
+(@p45, @p46, @p47, @p48, @p49, @p50, @p51, @p52, @p53, 5)) AS i ([CinemaId], [Description], [EndDate], [ImageURL], [MovieCategory], [Name], [Price], [ProducerId], [StartDate], _Position) ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([CinemaId], [Description], [EndDate], [ImageURL], [MovieCategory], [Name], [Price], [ProducerId], [StartDate])
+VALUES (i.[CinemaId], i.[Description], i.[EndDate], i.[ImageURL], i.[MovieCategory], i.[Name], i.[Price], i.[ProducerId], i.[StartDate])
+OUTPUT INSERTED.[Id], i._Position
+INTO @inserted0;
+
+SELECT [t].[Id] FROM [Movies] t
+INNER JOIN @inserted0 i ON ([t].[Id] = [i].[Id])
+ORDER BY [i].[_Position];
+2023-11-22 04:05:02.688 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[MovieId], [a].[ActorId]
+FROM [Actors_Movies] AS [a]
+2023-11-22 04:05:02.723 +01:00 [INF] Executed DbCommand (7ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = Int32), @p9='?' (DbType = Int32), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?' (DbType = Int32), @p13='?' (DbType = Int32), @p14='?' (DbType = Int32), @p15='?' (DbType = Int32), @p16='?' (DbType = Int32), @p17='?' (DbType = Int32), @p18='?' (DbType = Int32), @p19='?' (DbType = Int32), @p20='?' (DbType = Int32), @p21='?' (DbType = Int32), @p22='?' (DbType = Int32), @p23='?' (DbType = Int32), @p24='?' (DbType = Int32), @p25='?' (DbType = Int32), @p26='?' (DbType = Int32), @p27='?' (DbType = Int32), @p28='?' (DbType = Int32), @p29='?' (DbType = Int32), @p30='?' (DbType = Int32), @p31='?' (DbType = Int32), @p32='?' (DbType = Int32), @p33='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Actors_Movies] ([MovieId], [ActorId])
+VALUES (@p0, @p1),
+(@p2, @p3),
+(@p4, @p5),
+(@p6, @p7),
+(@p8, @p9),
+(@p10, @p11),
+(@p12, @p13),
+(@p14, @p15),
+(@p16, @p17),
+(@p18, @p19),
+(@p20, @p21),
+(@p22, @p23),
+(@p24, @p25),
+(@p26, @p27),
+(@p28, @p29),
+(@p30, @p31),
+(@p32, @p33);
+2023-11-22 04:05:02.764 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-11-22 04:05:02.770 +01:00 [INF] Hosting environment: Development
+2023-11-22 04:05:02.770 +01:00 [INF] Content root path: C:\Users\David Mboko\Desktop\Git\MovieTicketVendor\MovieTicketVendor\MovieTicketVendor
+2023-11-22 04:05:02.853 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/ - -
+2023-11-22 04:05:02.943 +01:00 [INF] Executing endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:05:02.974 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller MovieTicketVendor.Controllers.HomeController (MovieTicketVendor).
+2023-11-22 04:05:03.004 +01:00 [INF] Executing ViewResult, running view Index.
+2023-11-22 04:05:03.354 +01:00 [INF] Executed ViewResult - view Index executed in 352.4304ms.
+2023-11-22 04:05:03.360 +01:00 [INF] Executed action MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor) in 385.1377ms
+2023-11-22 04:05:03.362 +01:00 [INF] Executed endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:05:03.515 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/ - - - 200 - text/html;+charset=utf-8 664.6509ms
+2023-11-22 04:05:03.557 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/css/site.css - -
+2023-11-22 04:05:03.557 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/lib/jquery/dist/jquery.min.js - -
+2023-11-22 04:05:03.557 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/lib/bootstrap/dist/css/bootstrap.min.css - -
+2023-11-22 04:05:03.562 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0 - -
+2023-11-22 04:05:03.564 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - -
+2023-11-22 04:05:03.574 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_vs/browserLink - -
+2023-11-22 04:05:03.595 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/lib/bootstrap/dist/js/bootstrap.bundle.min.js - -
+2023-11-22 04:05:03.624 +01:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\David Mboko\Desktop\Git\MovieTicketVendor\MovieTicketVendor\MovieTicketVendor\wwwroot\css\site.css'
+2023-11-22 04:05:03.629 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - - - 200 12004 application/javascript;+charset=utf-8 60.7052ms
+2023-11-22 04:05:03.629 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/css/site.css - - - 200 1417 text/css 72.8636ms
+2023-11-22 04:05:03.632 +01:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\David Mboko\Desktop\Git\MovieTicketVendor\MovieTicketVendor\MovieTicketVendor\wwwroot\js\site.js'
+2023-11-22 04:05:03.634 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0 - - - 200 230 application/javascript 72.0035ms
+2023-11-22 04:05:03.647 +01:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'C:\Users\David Mboko\Desktop\Git\MovieTicketVendor\MovieTicketVendor\MovieTicketVendor\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2023-11-22 04:05:03.669 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/lib/bootstrap/dist/css/bootstrap.min.css - - - 200 155764 text/css 112.4683ms
+2023-11-22 04:05:03.748 +01:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'C:\Users\David Mboko\Desktop\Git\MovieTicketVendor\MovieTicketVendor\MovieTicketVendor\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2023-11-22 04:05:03.757 +01:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'C:\Users\David Mboko\Desktop\Git\MovieTicketVendor\MovieTicketVendor\MovieTicketVendor\wwwroot\lib\jquery\dist\jquery.min.js'
+2023-11-22 04:05:03.759 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/lib/bootstrap/dist/js/bootstrap.bundle.min.js - - - 200 78641 application/javascript 164.1874ms
+2023-11-22 04:05:03.768 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/lib/jquery/dist/jquery.min.js - - - 200 89476 application/javascript 211.6081ms
+2023-11-22 04:05:03.811 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 237.1318ms
+2023-11-22 04:05:04.018 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/favicon.ico - -
+2023-11-22 04:05:04.031 +01:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\Users\David Mboko\Desktop\Git\MovieTicketVendor\MovieTicketVendor\MovieTicketVendor\wwwroot\favicon.ico'
+2023-11-22 04:05:04.032 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/favicon.ico - - - 200 5430 image/x-icon 13.8667ms
+2023-11-22 04:05:08.979 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/ - -
+2023-11-22 04:05:08.988 +01:00 [INF] Executing endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:05:08.989 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller MovieTicketVendor.Controllers.HomeController (MovieTicketVendor).
+2023-11-22 04:05:08.990 +01:00 [INF] Executing ViewResult, running view Index.
+2023-11-22 04:05:08.999 +01:00 [INF] Executed ViewResult - view Index executed in 8.7881ms.
+2023-11-22 04:05:08.999 +01:00 [INF] Executed action MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor) in 9.5806ms
+2023-11-22 04:05:08.999 +01:00 [INF] Executed endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:05:09.004 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/ - - - 200 - text/html;+charset=utf-8 24.7437ms
+2023-11-22 04:05:09.024 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - -
+2023-11-22 04:05:09.024 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_vs/browserLink - -
+2023-11-22 04:05:09.036 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - - - 200 12004 application/javascript;+charset=utf-8 11.7946ms
+2023-11-22 04:05:09.081 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 57.1128ms
+2023-11-22 04:05:10.528 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/Home/Privacy - -
+2023-11-22 04:05:10.534 +01:00 [INF] Executing endpoint 'MovieTicketVendor.Controllers.HomeController.Privacy (MovieTicketVendor)'
+2023-11-22 04:05:10.535 +01:00 [INF] Route matched with {action = "Privacy", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Privacy() on controller MovieTicketVendor.Controllers.HomeController (MovieTicketVendor).
+2023-11-22 04:05:10.537 +01:00 [INF] Executing ViewResult, running view Privacy.
+2023-11-22 04:05:10.547 +01:00 [INF] Executed ViewResult - view Privacy executed in 11.0248ms.
+2023-11-22 04:05:10.547 +01:00 [INF] Executed action MovieTicketVendor.Controllers.HomeController.Privacy (MovieTicketVendor) in 11.5562ms
+2023-11-22 04:05:10.547 +01:00 [INF] Executed endpoint 'MovieTicketVendor.Controllers.HomeController.Privacy (MovieTicketVendor)'
+2023-11-22 04:05:10.556 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/Home/Privacy - - - 200 - text/html;+charset=utf-8 28.4368ms
+2023-11-22 04:05:10.592 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - -
+2023-11-22 04:05:10.592 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_vs/browserLink - -
+2023-11-22 04:05:10.604 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - - - 200 12004 application/javascript;+charset=utf-8 11.6405ms
+2023-11-22 04:05:10.655 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 62.9526ms
+2023-11-22 04:21:22.659 +01:00 [INF] User profile is available. Using 'C:\Users\David Mboko\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-11-22 04:21:24.445 +01:00 [INF] Entity Framework Core 3.1.32 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2023-11-22 04:21:25.089 +01:00 [INF] Executed DbCommand (43ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2023-11-22 04:21:25.183 +01:00 [INF] Executed DbCommand (66ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2023-11-22 04:21:25.539 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[Description], [c].[Logo], [c].[Name]
+FROM [Cinemas] AS [c]
+2023-11-22 04:21:25.661 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[Bio], [a].[FullName], [a].[ProfilePictureURL]
+FROM [Actors] AS [a]
+2023-11-22 04:21:25.695 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[Bio], [p].[FullName], [p].[ProfilePictureURL]
+FROM [Producers] AS [p]
+2023-11-22 04:21:25.731 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [m].[Id], [m].[CinemaId], [m].[Description], [m].[EndDate], [m].[ImageURL], [m].[MovieCategory], [m].[Name], [m].[Price], [m].[ProducerId], [m].[StartDate]
+FROM [Movies] AS [m]
+2023-11-22 04:21:25.816 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[MovieId], [a].[ActorId]
+FROM [Actors_Movies] AS [a]
+2023-11-22 04:21:25.941 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-11-22 04:21:25.956 +01:00 [INF] Hosting environment: Development
+2023-11-22 04:21:25.956 +01:00 [INF] Content root path: C:\Users\David Mboko\Desktop\Git\MovieTicketVendor\MovieTicketVendor\MovieTicketVendor
+2023-11-22 04:21:26.041 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/ - -
+2023-11-22 04:21:26.178 +01:00 [INF] Executing endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:21:26.217 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller MovieTicketVendor.Controllers.HomeController (MovieTicketVendor).
+2023-11-22 04:21:26.254 +01:00 [INF] Executing ViewResult, running view Index.
+2023-11-22 04:21:26.654 +01:00 [INF] Executed ViewResult - view Index executed in 399.6487ms.
+2023-11-22 04:21:26.662 +01:00 [INF] Executed action MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor) in 443.4375ms
+2023-11-22 04:21:26.667 +01:00 [INF] Executed endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:21:26.737 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/ - - - 200 - text/html;+charset=utf-8 704.9125ms
+2023-11-22 04:21:26.828 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_vs/browserLink - -
+2023-11-22 04:21:26.828 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - -
+2023-11-22 04:21:26.854 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - - - 200 12004 application/javascript;+charset=utf-8 15.8282ms
+2023-11-22 04:21:27.006 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 178.5365ms
+2023-11-22 04:21:37.000 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/Actors - -
+2023-11-22 04:21:37.015 +01:00 [INF] Executing endpoint 'MovieTicketVendor.Controllers.ActorsController.Index (MovieTicketVendor)'
+2023-11-22 04:21:37.023 +01:00 [INF] Route matched with {action = "Index", controller = "Actors"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller MovieTicketVendor.Controllers.ActorsController (MovieTicketVendor).
+2023-11-22 04:21:37.029 +01:00 [INF] Entity Framework Core 3.1.32 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2023-11-22 04:21:37.033 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[Bio], [a].[FullName], [a].[ProfilePictureURL]
+FROM [Actors] AS [a]
+2023-11-22 04:21:37.036 +01:00 [INF] Executing ViewResult, running view Index.
+2023-11-22 04:21:37.047 +01:00 [ERR] The view 'Index' was not found. Searched locations: ["/Views/Actors/Index.cshtml","/Views/Shared/Index.cshtml"]
+2023-11-22 04:21:37.063 +01:00 [INF] Executed action MovieTicketVendor.Controllers.ActorsController.Index (MovieTicketVendor) in 39.8256ms
+2023-11-22 04:21:37.064 +01:00 [INF] Executed endpoint 'MovieTicketVendor.Controllers.ActorsController.Index (MovieTicketVendor)'
+2023-11-22 04:21:37.074 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: The view 'Index' was not found. The following locations were searched:
+/Views/Actors/Index.cshtml
+/Views/Shared/Index.cshtml
+   at Microsoft.AspNetCore.Mvc.ViewEngines.ViewEngineResult.EnsureSuccessful(IEnumerable`1 originalLocations)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|29_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2023-11-22 04:21:37.442 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/Actors - - - 500 - text/html;+charset=utf-8 442.0041ms
+2023-11-22 04:21:37.476 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_vs/browserLink - -
+2023-11-22 04:21:37.477 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - -
+2023-11-22 04:21:37.493 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - - - 200 12004 application/javascript;+charset=utf-8 16.3169ms
+2023-11-22 04:21:37.589 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 112.6828ms
+2023-11-22 04:22:24.835 +01:00 [INF] User profile is available. Using 'C:\Users\David Mboko\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-11-22 04:22:26.599 +01:00 [INF] Entity Framework Core 3.1.32 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2023-11-22 04:22:27.241 +01:00 [INF] Executed DbCommand (31ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2023-11-22 04:22:27.316 +01:00 [INF] Executed DbCommand (50ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2023-11-22 04:22:27.685 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[Description], [c].[Logo], [c].[Name]
+FROM [Cinemas] AS [c]
+2023-11-22 04:22:27.782 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[Bio], [a].[FullName], [a].[ProfilePictureURL]
+FROM [Actors] AS [a]
+2023-11-22 04:22:27.810 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[Bio], [p].[FullName], [p].[ProfilePictureURL]
+FROM [Producers] AS [p]
+2023-11-22 04:22:27.829 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [m].[Id], [m].[CinemaId], [m].[Description], [m].[EndDate], [m].[ImageURL], [m].[MovieCategory], [m].[Name], [m].[Price], [m].[ProducerId], [m].[StartDate]
+FROM [Movies] AS [m]
+2023-11-22 04:22:27.893 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[MovieId], [a].[ActorId]
+FROM [Actors_Movies] AS [a]
+2023-11-22 04:22:28.020 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-11-22 04:22:28.022 +01:00 [INF] Hosting environment: Development
+2023-11-22 04:22:28.022 +01:00 [INF] Content root path: C:\Users\David Mboko\Desktop\Git\MovieTicketVendor\MovieTicketVendor\MovieTicketVendor
+2023-11-22 04:22:28.131 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/ - -
+2023-11-22 04:22:28.250 +01:00 [INF] Executing endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:22:28.287 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller MovieTicketVendor.Controllers.HomeController (MovieTicketVendor).
+2023-11-22 04:22:28.328 +01:00 [INF] Executing ViewResult, running view Index.
+2023-11-22 04:22:28.735 +01:00 [INF] Executed ViewResult - view Index executed in 410.2584ms.
+2023-11-22 04:22:28.743 +01:00 [INF] Executed action MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor) in 454.0154ms
+2023-11-22 04:22:28.745 +01:00 [INF] Executed endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:22:28.814 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/ - - - 200 - text/html;+charset=utf-8 688.1288ms
+2023-11-22 04:22:28.873 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - -
+2023-11-22 04:22:28.890 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_vs/browserLink - -
+2023-11-22 04:22:28.907 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - - - 200 12004 application/javascript;+charset=utf-8 29.8288ms
+2023-11-22 04:22:29.029 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 139.7013ms
+2023-11-22 04:22:36.705 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/Actors - -
+2023-11-22 04:22:36.718 +01:00 [INF] Executing endpoint 'MovieTicketVendor.Controllers.ActorsController.Index (MovieTicketVendor)'
+2023-11-22 04:22:36.723 +01:00 [INF] Route matched with {action = "Index", controller = "Actors"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller MovieTicketVendor.Controllers.ActorsController (MovieTicketVendor).
+2023-11-22 04:22:36.733 +01:00 [INF] Entity Framework Core 3.1.32 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2023-11-22 04:22:36.736 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[Bio], [a].[FullName], [a].[ProfilePictureURL]
+FROM [Actors] AS [a]
+2023-11-22 04:33:38.814 +01:00 [INF] User profile is available. Using 'C:\Users\David Mboko\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-11-22 04:33:40.464 +01:00 [INF] Entity Framework Core 3.1.32 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2023-11-22 04:33:41.260 +01:00 [INF] Executed DbCommand (46ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2023-11-22 04:33:41.402 +01:00 [INF] Executed DbCommand (112ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2023-11-22 04:33:41.772 +01:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[Description], [c].[Logo], [c].[Name]
+FROM [Cinemas] AS [c]
+2023-11-22 04:33:41.976 +01:00 [INF] Executed DbCommand (15ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[Bio], [a].[FullName], [a].[ProfilePictureURL]
+FROM [Actors] AS [a]
+2023-11-22 04:33:42.002 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[Bio], [p].[FullName], [p].[ProfilePictureURL]
+FROM [Producers] AS [p]
+2023-11-22 04:33:42.030 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [m].[Id], [m].[CinemaId], [m].[Description], [m].[EndDate], [m].[ImageURL], [m].[MovieCategory], [m].[Name], [m].[Price], [m].[ProducerId], [m].[StartDate]
+FROM [Movies] AS [m]
+2023-11-22 04:33:42.137 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[MovieId], [a].[ActorId]
+FROM [Actors_Movies] AS [a]
+2023-11-22 04:33:42.316 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-11-22 04:33:42.317 +01:00 [INF] Hosting environment: Development
+2023-11-22 04:33:42.317 +01:00 [INF] Content root path: C:\Users\David Mboko\Desktop\Git\MovieTicketVendor\MovieTicketVendor\MovieTicketVendor
+2023-11-22 04:33:42.439 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/ - -
+2023-11-22 04:33:42.568 +01:00 [INF] Executing endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:33:42.612 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller MovieTicketVendor.Controllers.HomeController (MovieTicketVendor).
+2023-11-22 04:33:42.677 +01:00 [INF] Executing ViewResult, running view Index.
+2023-11-22 04:33:42.997 +01:00 [INF] Executed ViewResult - view Index executed in 334.4862ms.
+2023-11-22 04:33:43.005 +01:00 [INF] Executed action MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor) in 390.6302ms
+2023-11-22 04:33:43.008 +01:00 [INF] Executed endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:33:43.244 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/ - - - 200 - text/html;+charset=utf-8 715.6196ms
+2023-11-22 04:33:43.407 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_vs/browserLink - -
+2023-11-22 04:33:43.407 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - -
+2023-11-22 04:33:43.457 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - - - 200 12004 application/javascript;+charset=utf-8 44.6998ms
+2023-11-22 04:33:43.622 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 186.0429ms
+2023-11-22 04:33:50.165 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/ - -
+2023-11-22 04:33:50.177 +01:00 [INF] Executing endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:33:50.178 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller MovieTicketVendor.Controllers.HomeController (MovieTicketVendor).
+2023-11-22 04:33:50.181 +01:00 [INF] Executing ViewResult, running view Index.
+2023-11-22 04:33:50.204 +01:00 [INF] Executed ViewResult - view Index executed in 24.4072ms.
+2023-11-22 04:33:50.205 +01:00 [INF] Executed action MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor) in 25.9177ms
+2023-11-22 04:33:50.206 +01:00 [INF] Executed endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:33:50.216 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/ - - - 200 - text/html;+charset=utf-8 50.5614ms
+2023-11-22 04:33:50.269 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - -
+2023-11-22 04:33:50.283 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_vs/browserLink - -
+2023-11-22 04:33:50.302 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - - - 200 12004 application/javascript;+charset=utf-8 32.0790ms
+2023-11-22 04:33:50.398 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 114.2924ms
+2023-11-22 04:33:52.119 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/Home/Privacy - -
+2023-11-22 04:33:52.131 +01:00 [INF] Executing endpoint 'MovieTicketVendor.Controllers.HomeController.Privacy (MovieTicketVendor)'
+2023-11-22 04:33:52.141 +01:00 [INF] Route matched with {action = "Privacy", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Privacy() on controller MovieTicketVendor.Controllers.HomeController (MovieTicketVendor).
+2023-11-22 04:33:52.144 +01:00 [INF] Executing ViewResult, running view Privacy.
+2023-11-22 04:33:52.162 +01:00 [INF] Executed ViewResult - view Privacy executed in 20.371ms.
+2023-11-22 04:33:52.163 +01:00 [INF] Executed action MovieTicketVendor.Controllers.HomeController.Privacy (MovieTicketVendor) in 21.4651ms
+2023-11-22 04:33:52.163 +01:00 [INF] Executed endpoint 'MovieTicketVendor.Controllers.HomeController.Privacy (MovieTicketVendor)'
+2023-11-22 04:33:52.167 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/Home/Privacy - - - 200 - text/html;+charset=utf-8 47.8827ms
+2023-11-22 04:33:52.235 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_vs/browserLink - -
+2023-11-22 04:33:52.307 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - -
+2023-11-22 04:33:52.336 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - - - 200 12004 application/javascript;+charset=utf-8 29.0765ms
+2023-11-22 04:33:52.415 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 179.5910ms
+2023-11-22 04:33:58.757 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/ - -
+2023-11-22 04:33:58.762 +01:00 [INF] Executing endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:33:58.768 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller MovieTicketVendor.Controllers.HomeController (MovieTicketVendor).
+2023-11-22 04:33:58.769 +01:00 [INF] Executing ViewResult, running view Index.
+2023-11-22 04:33:58.783 +01:00 [INF] Executed ViewResult - view Index executed in 13.7473ms.
+2023-11-22 04:33:58.783 +01:00 [INF] Executed action MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor) in 14.6085ms
+2023-11-22 04:33:58.783 +01:00 [INF] Executed endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:33:58.788 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/ - - - 200 - text/html;+charset=utf-8 31.2762ms
+2023-11-22 04:33:58.854 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_vs/browserLink - -
+2023-11-22 04:33:58.854 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - -
+2023-11-22 04:33:58.873 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - - - 200 12004 application/javascript;+charset=utf-8 18.4984ms
+2023-11-22 04:33:58.948 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 92.5268ms
+2023-11-22 04:34:30.082 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/ - -
+2023-11-22 04:34:30.092 +01:00 [INF] Executing endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:34:30.093 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller MovieTicketVendor.Controllers.HomeController (MovieTicketVendor).
+2023-11-22 04:34:30.094 +01:00 [INF] Executing ViewResult, running view Index.
+2023-11-22 04:34:30.117 +01:00 [INF] Executed ViewResult - view Index executed in 23.6146ms.
+2023-11-22 04:34:30.118 +01:00 [INF] Executed action MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor) in 24.8505ms
+2023-11-22 04:34:30.118 +01:00 [INF] Executed endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:34:30.122 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/ - - - 200 - text/html;+charset=utf-8 40.4068ms
+2023-11-22 04:34:30.174 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_vs/browserLink - -
+2023-11-22 04:34:30.174 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - -
+2023-11-22 04:34:30.194 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - - - 200 12004 application/javascript;+charset=utf-8 12.9179ms
+2023-11-22 04:34:30.273 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 98.5770ms
+2023-11-22 04:34:31.960 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/Home/Privacy - -
+2023-11-22 04:34:31.968 +01:00 [INF] Executing endpoint 'MovieTicketVendor.Controllers.HomeController.Privacy (MovieTicketVendor)'
+2023-11-22 04:34:31.968 +01:00 [INF] Route matched with {action = "Privacy", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Privacy() on controller MovieTicketVendor.Controllers.HomeController (MovieTicketVendor).
+2023-11-22 04:34:31.969 +01:00 [INF] Executing ViewResult, running view Privacy.
+2023-11-22 04:34:31.977 +01:00 [INF] Executed ViewResult - view Privacy executed in 8.5216ms.
+2023-11-22 04:34:31.978 +01:00 [INF] Executed action MovieTicketVendor.Controllers.HomeController.Privacy (MovieTicketVendor) in 9.1025ms
+2023-11-22 04:34:31.978 +01:00 [INF] Executed endpoint 'MovieTicketVendor.Controllers.HomeController.Privacy (MovieTicketVendor)'
+2023-11-22 04:34:31.985 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/Home/Privacy - - - 200 - text/html;+charset=utf-8 25.4197ms
+2023-11-22 04:34:32.032 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - -
+2023-11-22 04:34:32.038 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_vs/browserLink - -
+2023-11-22 04:34:32.043 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - - - 200 12004 application/javascript;+charset=utf-8 10.5990ms
+2023-11-22 04:34:32.140 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 101.9115ms
+2023-11-22 04:46:18.403 +01:00 [INF] User profile is available. Using 'C:\Users\David Mboko\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-11-22 04:46:20.270 +01:00 [INF] Entity Framework Core 3.1.32 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2023-11-22 04:46:20.961 +01:00 [INF] Executed DbCommand (40ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2023-11-22 04:46:21.061 +01:00 [INF] Executed DbCommand (66ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2023-11-22 04:46:21.387 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[Description], [c].[Logo], [c].[Name]
+FROM [Cinemas] AS [c]
+2023-11-22 04:46:21.539 +01:00 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[Bio], [a].[FullName], [a].[ProfilePictureURL]
+FROM [Actors] AS [a]
+2023-11-22 04:46:21.574 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[Bio], [p].[FullName], [p].[ProfilePictureURL]
+FROM [Producers] AS [p]
+2023-11-22 04:46:21.601 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [m].[Id], [m].[CinemaId], [m].[Description], [m].[EndDate], [m].[ImageURL], [m].[MovieCategory], [m].[Name], [m].[Price], [m].[ProducerId], [m].[StartDate]
+FROM [Movies] AS [m]
+2023-11-22 04:46:21.675 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[MovieId], [a].[ActorId]
+FROM [Actors_Movies] AS [a]
+2023-11-22 04:46:21.816 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-11-22 04:46:21.817 +01:00 [INF] Hosting environment: Development
+2023-11-22 04:46:21.817 +01:00 [INF] Content root path: C:\Users\David Mboko\Desktop\Git\MovieTicketVendor\MovieTicketVendor\MovieTicketVendor
+2023-11-22 04:46:21.887 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/ - -
+2023-11-22 04:46:22.019 +01:00 [INF] Executing endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:46:22.063 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller MovieTicketVendor.Controllers.HomeController (MovieTicketVendor).
+2023-11-22 04:46:22.105 +01:00 [INF] Executing ViewResult, running view Index.
+2023-11-22 04:46:22.517 +01:00 [INF] Executed ViewResult - view Index executed in 413.3316ms.
+2023-11-22 04:46:22.524 +01:00 [INF] Executed action MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor) in 458.6182ms
+2023-11-22 04:46:22.528 +01:00 [INF] Executed endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:46:22.607 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/ - - - 200 - text/html;+charset=utf-8 725.5176ms
+2023-11-22 04:46:22.674 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - -
+2023-11-22 04:46:22.677 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_vs/browserLink - -
+2023-11-22 04:46:22.696 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - - - 200 12004 application/javascript;+charset=utf-8 13.1599ms
+2023-11-22 04:46:22.816 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 138.6603ms
+2023-11-22 04:46:48.026 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/Home - -
+2023-11-22 04:46:48.047 +01:00 [INF] Executing endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:46:48.048 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller MovieTicketVendor.Controllers.HomeController (MovieTicketVendor).
+2023-11-22 04:46:48.051 +01:00 [INF] Executing ViewResult, running view Index.
+2023-11-22 04:46:48.078 +01:00 [INF] Executed ViewResult - view Index executed in 29.5348ms.
+2023-11-22 04:46:48.080 +01:00 [INF] Executed action MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor) in 31.7662ms
+2023-11-22 04:46:48.080 +01:00 [INF] Executed endpoint 'MovieTicketVendor.Controllers.HomeController.Index (MovieTicketVendor)'
+2023-11-22 04:46:48.088 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/Home - - - 200 - text/html;+charset=utf-8 61.6153ms
+2023-11-22 04:46:48.152 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - -
+2023-11-22 04:46:48.160 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_framework/aspnetcore-browser-refresh.js - - - 200 12004 application/javascript;+charset=utf-8 6.3401ms
+2023-11-22 04:46:48.201 +01:00 [INF] Request starting HTTP/2 GET https://localhost:44362/_vs/browserLink - -
+2023-11-22 04:46:48.317 +01:00 [INF] Request finished HTTP/2 GET https://localhost:44362/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 115.9125ms

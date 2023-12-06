@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MovieTicketVendor.Data;
+using MovieTicketVendor.Data.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +26,15 @@ namespace MovieTicketVendor
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Add DBContext
+            services.AddDbContext<AppDbContext>(op => op.UseSqlServer(Configuration.GetConnectionString("primaryConnectionString")));
+
+            //Configure Services
+            services.AddScoped<IActorsService , ActorsService>();
+            services.AddScoped<IProducerService, ProducerService>();
+            services.AddScoped<ICenemaService, CenemaService>();
+            services.AddScoped<IMovieService, MovieService>();
+
             services.AddControllersWithViews();
         }
 
@@ -52,6 +64,7 @@ namespace MovieTicketVendor
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+            AppDbInitializer.Seed(app);
         }
     }
 }
